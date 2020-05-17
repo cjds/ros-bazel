@@ -80,7 +80,7 @@ package(default_visibility = ["//visibility:public"])
 
     if message_files:
         build_file_contents += """
-load("@//bazel:message_generation.bzl", "generate_messages")
+load("@bazel_rules_ros//:message_generation.bzl", "generate_messages")
 """
 
     build_file_contents += """

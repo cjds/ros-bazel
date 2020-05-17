@@ -2,7 +2,7 @@
 # https://docs.bazel.build/versions/master/skylark/cookbook.html
 # https://github.com/RobotLocomotion/drake/blob/eefddbee62439156b6faaf3b0cecdd0c57e704d7/tools/lcm.bzl
 
-load("//bazel:path_utils.bzl", "basename", "dirname", "join_paths")
+load("@bazel_rules_ros//:path_utils.bzl", "basename", "dirname", "join_paths")
 
 # From https://tiantiankan.me/a/5c4dde1b3e9fd72da94d2553
 RosMsgProvider = provider(fields = [
@@ -214,7 +214,7 @@ _gencpp = rule(
 #
 #
 
-def generate_messages(srcs, ros_package_name, deps = []):
+def generate_messages(srcs, ros_package_name, deps = [], visibility=["//visibility:public"]):
     # This target is used to collect transitive message dependencies
     # and track their include paths for genmsg.
     _msg_sources(
@@ -242,6 +242,7 @@ def generate_messages(srcs, ros_package_name, deps = []):
         deps = [
             "@genpy_repo//:genpy",
         ],
+        visibility=visibility,
     )
 
     _gencpp(
@@ -260,4 +261,5 @@ def generate_messages(srcs, ros_package_name, deps = []):
             dep.replace(":msgs", ":msgs_cc")
             for dep in deps
         ],
+        visibility=visibility,
     )
